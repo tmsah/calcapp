@@ -12,9 +12,36 @@
 
     <TextView
         android:id="@+id/textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:singleLine="false"
+        android:text="input:---"/>
+
+    <TextView
+        android:id="@+id/sum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"/>
+        android:layout_below="@id/textview"
+        android:paddingLeft="40dp"
+        android:text="sum:---"/>
+    <TextView
+        android:id="@+id/num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textview"
+        android:layout_toRightOf="@id/sum"
+        android:paddingLeft="40dp"
+        android:text="num:---"/>
+    <TextView
+        android:id="@+id/average"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textview"
+        android:layout_toRightOf="@id/num"
+        android:paddingLeft="40dp"
+        android:text="ave:---"/>
 
     <EditText
         android:id="@+id/edittext"
