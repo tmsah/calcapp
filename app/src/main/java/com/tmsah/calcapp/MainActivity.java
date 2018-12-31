@@ -8,26 +8,32 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     TextView textView;
+    TextView sort;
     TextView sum;
     TextView num;
     TextView average;
     EditText editText;
     Button button;
 
-    View.OnClickListener buttonListener = new View.OnClickListener() {
+    View.OnClickListener buttonClearListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            recentOperator = R.id.button_equal;
             result = 0;
             numNum = 0;
             sumNum = 0;
-            isTensPlace = true;
-            isOperatorKeyPushed = false;
+            isOnesPlace = false;
+            list.clear();
 
             textView.setText("input:---");
+            sort.setText("sorted:---");
             sum.setText("sum:---");
             num.setText("num:---");
             average.setText("ave:---");
@@ -40,12 +46,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         textView = (TextView) findViewById(R.id.textview);
+        sort = (TextView) findViewById(R.id.sort);
         sum = (TextView) findViewById(R.id.sum);
         num = (TextView) findViewById(R.id.num);
         average = (TextView) findViewById(R.id.average);
         editText= (EditText) findViewById(R.id.edittext);
-        button = (Button) findViewById(R.id.button);
-        button.setOnClickListener(buttonListener);
 
         findViewById(R.id.button_1).setOnClickListener(buttonNumberListener);
         findViewById(R.id.button_2).setOnClickListener(buttonNumberListener);
@@ -58,55 +63,29 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.button_9).setOnClickListener(buttonNumberListener);
         findViewById(R.id.button_0).setOnClickListener(buttonNumberListener);
         findViewById(R.id.button_00).setOnClickListener(buttonNumberListener);
-        findViewById(R.id.button_add).setOnClickListener(buttonOperatorListener);
-        findViewById(R.id.button_subtract).setOnClickListener(buttonOperatorListener);
-        findViewById(R.id.button_multiply).setOnClickListener(buttonOperatorListener);
-        findViewById(R.id.button_divide).setOnClickListener(buttonOperatorListener);
-        findViewById(R.id.button_equal).setOnClickListener(buttonOperatorListener);
+        findViewById(R.id.button_sort).setOnClickListener(buttonSortListener);
+        findViewById(R.id.button_undo).setOnClickListener(buttonUndoListener);
+        findViewById(R.id.button_clear).setOnClickListener(buttonClearListener);
     }
 
-    int recentOperator = R.id.button_equal; // 最近押された計算キー
     float result;  // 計算結果
-    boolean isOperatorKeyPushed;    // 計算キーが押されたことを記憶
     int numNum;
     int sumNum;
-    boolean isTensPlace = true;
+    boolean isOnesPlace = false;
+    List<Integer> list = new ArrayList<>();
     String br = System.getProperty("line.separator");  //改行コード
 
-    View.OnClickListener buttonOperatorListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Button operatorButton = (Button) view;
-            float value = Float.parseFloat(editText.getText().toString());
-            if (recentOperator == R.id.button_equal) {
-                result = value;
-            } else {
-                result = calc(recentOperator, result, value);
-                editText.setText(String.valueOf(result));
-            }
-
-            recentOperator = operatorButton.getId();
-            textView.setText(operatorButton.getText());
-            isOperatorKeyPushed = true;
-        }
-    };
     View.OnClickListener buttonNumberListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             Button button = (Button) view;
             editText.append(button.getText());
 
-            if (isTensPlace) {
-                isTensPlace = false;
-            }
-            else{
+            if (isOnesPlace) {
                 int value = Integer.parseInt(editText.getText().toString());
-                if (numNum == 0) {
-                    textView.setText("input:" + br + String.valueOf(value));
-                }
-                else {
-                    textView.append(br + String.valueOf(value));
-                }
+                list.add(value);
+                textView.setText("input:");
+                displayList(textView, list);
                 editText.setText("");
                 numNum++;
                 sumNum+=value;
@@ -114,24 +93,53 @@ public class MainActivity extends AppCompatActivity {
                 sum.setText("sum:" + String.valueOf(sumNum));
                 num.setText("num:" + String.valueOf(numNum));
                 average.setText("ave:" + String.format("%.1f", result));
-                isTensPlace = true;
             }
-
-            isOperatorKeyPushed = false;
+            isOnesPlace = !isOnesPlace;
         }
     };
-    float calc(int operator, float value1, float value2) {
-        switch (operator) {
-            case R.id.button_add:
-                return value1 + value2;
-            case R.id.button_subtract:
-                return value1 - value2;
-            case R.id.button_multiply:
-                return value1 * value2;
-            case R.id.button_divide:
-                return value1 / value2;
-            default:
-                return value1;
+    View.OnClickListener buttonSortListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Button button = (Button) view;
+            sort.setText("sorted:");
+            displayList(sort, descentSort(list));
+        }
+    };
+    View.OnClickListener buttonUndoListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Button button = (Button) view;
+            if (list.size() != 0) {
+                int value = list.get(list.size() - 1);
+                list.remove(list.size() - 1);
+                numNum--;
+                sumNum -= value;
+                result = (float) sumNum / numNum;
+                textView.setText("input:");
+                displayList(textView, list);
+                sort.setText("sorted:");
+                displayList(sort, descentSort(list));
+                sum.setText("sum:" + String.valueOf(sumNum));
+                num.setText("num:" + String.valueOf(numNum));
+                average.setText("ave:" + String.format("%.1f", result));
+            }
+        }
+    };
+
+    public void displayList(TextView text, List<Integer> l) {
+        for (int i=0; i<l.size(); i++){
+            text.append(br + l.get(i));
         }
     }
+
+    public List<Integer> descentSort(List<Integer> l){
+        List<Integer> copy = new  ArrayList<>(l);
+        List<Integer> des = new ArrayList<>();
+        Collections.sort(copy);
+        for (int i=copy.size()-1; i>=0; i--){
+            des.add(copy.get(i));
+        }
+        return des;
+    }
+
 }

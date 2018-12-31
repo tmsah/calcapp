@@ -2,6 +2,7 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="30dp"
     android:stretchColumns="0,1,2,3">
     <TableRow
         style="?attr/actionBarStyle"
@@ -114,11 +115,11 @@
             />
 
         <Button
-            android:id="@+id/button_subtract"
+            android:id="@+id/button_undo"
             style="?attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="-"
+            android:text="undo"
             />
 
     </TableRow>
@@ -146,19 +147,19 @@
             />
 
         <Button
-            android:id="@+id/button_equal"
+            android:id="@+id/button_clear"
             style="?attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="="
+            android:text="clear"
             />
 
         <Button
-            android:id="@+id/button_add"
+            android:id="@+id/button_sort"
             style="?attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="+"
+            android:text="sort"
             />
     </TableRow>
 </TableLayout>
