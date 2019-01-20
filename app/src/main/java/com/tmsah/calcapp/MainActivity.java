@@ -23,23 +23,29 @@ public class MainActivity extends AppCompatActivity {
     EditText editText;
     Button button;
 
-    View.OnClickListener buttonClearListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            result = 0;
-            numNum = 0;
-            sumNum = 0;
-            isOnesPlace = false;
-            list.clear();
+    float result;  // 計算結果
+    int numNum;
+    int sumNum;
+    boolean isOnesPlace = false;
+    boolean doneSort = false;
+    List<Integer> list = new ArrayList<>();
+    String br = System.getProperty("line.separator");  //改行コード
+    public void initialize(){
+        result = 0;
+        numNum = 0;
+        sumNum = 0;
+        isOnesPlace = false;
+        doneSort = false;
+        list.clear();
 
-            textView.setText("input:---");
-            sort.setText("sorted:---");
-            sum.setText("sum:---");
-            num.setText("num:---");
-            average.setText("ave:---");
-            editText.setText("");
-        }
-    };
+        textView.setText("input:---");
+        sort.setText("sorted:---");
+        sum.setText("sum:---");
+        num.setText("num:---");
+        average.setText("ave:---");
+        editText.setText("");
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,13 +74,6 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.button_clear).setOnClickListener(buttonClearListener);
     }
 
-    float result;  // 計算結果
-    int numNum;
-    int sumNum;
-    boolean isOnesPlace = false;
-    List<Integer> list = new ArrayList<>();
-    String br = System.getProperty("line.separator");  //改行コード
-
     View.OnClickListener buttonNumberListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -89,10 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 editText.setText("");
                 numNum++;
                 sumNum+=value;
-                result = (float) sumNum / numNum;
-                sum.setText("sum:" + String.valueOf(sumNum));
-                num.setText("num:" + String.valueOf(numNum));
-                average.setText("ave:" + String.format("%.1f", result));
+                outputResults();
             }
             isOnesPlace = !isOnesPlace;
         }
@@ -103,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
             Button button = (Button) view;
             sort.setText("sorted:");
             displayList(sort, descentSort(list));
+            doneSort = true;
         }
     };
     View.OnClickListener buttonUndoListener = new View.OnClickListener() {
@@ -110,19 +107,30 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View view) {
             Button button = (Button) view;
             if (list.size() != 0) {
-                int value = list.get(list.size() - 1);
-                list.remove(list.size() - 1);
-                numNum--;
-                sumNum -= value;
-                result = (float) sumNum / numNum;
-                textView.setText("input:");
-                displayList(textView, list);
-                sort.setText("sorted:");
-                displayList(sort, descentSort(list));
-                sum.setText("sum:" + String.valueOf(sumNum));
-                num.setText("num:" + String.valueOf(numNum));
-                average.setText("ave:" + String.format("%.1f", result));
+                if (list.size() == 1){
+                    initialize();
+                }
+                else {
+                    int value = list.get(list.size() - 1);
+                    list.remove(list.size() - 1);
+                    numNum--;
+                    sumNum -= value;
+                    textView.setText("input:");
+                    displayList(textView, list);
+                    if (doneSort) {
+                        sort.setText("sorted:");
+                        displayList(sort, descentSort(list));
+                    }
+                    outputResults();
+                }
             }
+        }
+    };
+
+    View.OnClickListener buttonClearListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            initialize();
         }
     };
 
@@ -140,6 +148,13 @@ public class MainActivity extends AppCompatActivity {
             des.add(copy.get(i));
         }
         return des;
+    }
+
+    public void outputResults(){
+        result = (float) sumNum / numNum;
+        sum.setText("sum:" + String.valueOf(sumNum));
+        num.setText("num:" + String.valueOf(numNum));
+        average.setText("ave:" + String.format("%.1f", result));
     }
 
 }
