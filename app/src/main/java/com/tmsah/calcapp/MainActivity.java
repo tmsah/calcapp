@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+//import android.view.animation.Animation.AnimationListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,8 +23,7 @@ public class MainActivity extends AppCompatActivity {
     TextView sum;
     TextView num;
     TextView average;
-    EditText editText;
-    Button button;
+    TextView editText;
 
     float result;  // 計算結果
     int numNum;
@@ -30,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
     boolean doneSort = false;
     List<Integer> list = new ArrayList<>();
     String br = System.getProperty("line.separator");  //改行コード
+    Animation outAnimation;
+
+    //初期化
     public void initialize(){
         result = 0;
         numNum = 0;
@@ -44,9 +49,10 @@ public class MainActivity extends AppCompatActivity {
         num.setText("num:---");
         average.setText("ave:---");
         editText.setText("");
+
+        outAnimation= (Animation) AnimationUtils.loadAnimation(this, R.anim.out_animation);
     }
 
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -56,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         sum = (TextView) findViewById(R.id.sum);
         num = (TextView) findViewById(R.id.num);
         average = (TextView) findViewById(R.id.average);
-        editText= (EditText) findViewById(R.id.edittext);
+        editText= (TextView) findViewById(R.id.edittext);
 
         findViewById(R.id.button_1).setOnClickListener(buttonNumberListener);
         findViewById(R.id.button_2).setOnClickListener(buttonNumberListener);
@@ -72,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.button_sort).setOnClickListener(buttonSortListener);
         findViewById(R.id.button_undo).setOnClickListener(buttonUndoListener);
         findViewById(R.id.button_clear).setOnClickListener(buttonClearListener);
+
+        initialize();
     }
 
     View.OnClickListener buttonNumberListener = new View.OnClickListener() {
@@ -85,10 +93,13 @@ public class MainActivity extends AppCompatActivity {
                 list.add(value);
                 textView.setText("input:");
                 displayList(textView, list);
-                editText.setText("");
                 numNum++;
                 sumNum+=value;
                 outputResults();
+                editText.startAnimation(outAnimation);
+                //editText.setVisibility(View.GONE);
+                //editText.setVisibility(View.VISIBLE);
+                editText.setText("");
             }
             isOnesPlace = !isOnesPlace;
         }
@@ -96,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
     View.OnClickListener buttonSortListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Button button = (Button) view;
             sort.setText("sorted:");
             displayList(sort, descentSort(list));
             doneSort = true;
@@ -105,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
     View.OnClickListener buttonUndoListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Button button = (Button) view;
             if (list.size() != 0) {
                 if (list.size() == 1){
                     initialize();

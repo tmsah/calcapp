@@ -25,7 +25,8 @@
                 android:layout_height="1000dp"
                 android:paddingLeft="30dp"
                 android:singleLine="false"
-                android:text="input:---"/>
+                android:gravity="center_horizontal"
+                android:text=""/>
         </LinearLayout>
     </ScrollView>
 
@@ -40,11 +41,12 @@
             android:layout_width="wrap_content"
             android:layout_height="200dp" >
              <TextView
-                android:id="@+id/sort"
-                android:layout_width="wrap_content"
-                android:layout_height="1000dp"
-                android:singleLine="false"
-                android:text="sorted:---"/>
+                 android:id="@+id/sort"
+                 android:layout_width="wrap_content"
+                 android:layout_height="1000dp"
+                 android:singleLine="false"
+                 android:gravity="center_horizontal"
+                 android:text=""/>
         </LinearLayout>
     </ScrollView>
 
@@ -55,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/inputScroll"
         android:paddingLeft="40dp"
-        android:text="sum:---"/>
+        android:text=""/>
     <TextView
         android:id="@+id/num"
         android:layout_width="wrap_content"
@@ -63,7 +65,7 @@
         android:layout_below="@id/inputScroll"
         android:layout_toRightOf="@id/sum"
         android:paddingLeft="40dp"
-        android:text="num:---"/>
+        android:text=""/>
     <TextView
         android:id="@+id/average"
         android:layout_width="wrap_content"
@@ -71,18 +73,29 @@
         android:layout_below="@id/inputScroll"
         android:layout_toRightOf="@id/num"
         android:paddingLeft="40dp"
-        android:text="ave:---"/>
+        android:text=""/>
 
-    <EditText
+    <RelativeLayout
+        android:id="@+id/edittext2"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/sum">
+
+    <TextView
         android:id="@+id/edittext"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/inputScroll"/>
-
+        android:layout_height="50dp"
+        android:text=""
+        android:gravity="center"
+        android:textSize="40sp"
+        android:textAppearance="@color/colorAccent"
+        android:background="@color/colorPrimary"
+        />
+    </RelativeLayout>
     <include
         layout="@layout/ten_key"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/edittext"
+        android:layout_below="@id/edittext2"
         />
 </RelativeLayout>
