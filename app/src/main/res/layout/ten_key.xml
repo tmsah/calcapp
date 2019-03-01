@@ -33,15 +33,6 @@
             android:layout_height="wrap_content"
             android:text="9"
             />
-
-        <Button
-            android:id="@+id/button_divide"
-            style="?attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            />
-
     </TableRow>
 
     <TableRow
@@ -73,15 +64,6 @@
             android:layout_height="wrap_content"
             android:text="6"
             />
-
-        <Button
-            android:id="@+id/button_multiply"
-            style="?attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            />
-
     </TableRow>
 
     <TableRow
@@ -113,15 +95,6 @@
             android:layout_height="wrap_content"
             android:text="3"
             />
-
-        <Button
-            android:id="@+id/button_undo"
-            style="?attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="undo"
-            />
-
     </TableRow>
 
     <TableRow
@@ -147,19 +120,11 @@
             />
 
         <Button
-            android:id="@+id/button_clear"
+            android:id="@+id/button_multiply"
             style="?attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="clear"
-            />
-
-        <Button
-            android:id="@+id/button_sort"
-            style="?attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="sort"
+            android:text=""
             />
     </TableRow>
 </TableLayout>

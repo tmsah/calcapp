@@ -10,36 +10,38 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity">
-
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/inputScroll"
         android:layout_width="wrap_content"
-        android:layout_height="200dp"
-        android:scrollbarAlwaysDrawVerticalTrack="true">
+        android:layout_height="150dp"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        >
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="200dp" >
+            android:layout_height="150dp" >
+
             <TextView
                 android:id="@+id/textview"
                 android:layout_width="wrap_content"
                 android:layout_height="1000dp"
+                android:gravity="center_horizontal"
                 android:paddingLeft="30dp"
                 android:singleLine="false"
-                android:gravity="center_horizontal"
-                android:text=""/>
+                android:text="" />
         </LinearLayout>
     </ScrollView>
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/sortScroll"
         android:layout_width="wrap_content"
-        android:layout_height="200dp"
+        android:layout_height="150dp"
         android:paddingLeft="30dp"
         android:layout_toRightOf="@id/inputScroll"
-        android:scrollbarAlwaysDrawVerticalTrack="true">
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        >
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="200dp" >
+            android:layout_height="150dp" >
              <TextView
                  android:id="@+id/sort"
                  android:layout_width="wrap_content"
@@ -74,12 +76,19 @@
         android:layout_toRightOf="@id/num"
         android:paddingLeft="40dp"
         android:text=""/>
+    <include
+        android:id="@+id/function_key"
+        layout="@layout/function_key"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sum"
+        />
 
     <RelativeLayout
         android:id="@+id/edittext2"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_below="@id/sum">
+        android:layout_below="@id/function_key">
 
     <TextView
         android:id="@+id/edittext"

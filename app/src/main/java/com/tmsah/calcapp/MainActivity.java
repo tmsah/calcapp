@@ -1,5 +1,6 @@
 package com.tmsah.calcapp;
 
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -75,9 +76,9 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.button_9).setOnClickListener(buttonNumberListener);
         findViewById(R.id.button_0).setOnClickListener(buttonNumberListener);
         findViewById(R.id.button_00).setOnClickListener(buttonNumberListener);
-        findViewById(R.id.button_sort).setOnClickListener(buttonSortListener);
-        findViewById(R.id.button_undo).setOnClickListener(buttonUndoListener);
         findViewById(R.id.button_clear).setOnClickListener(buttonClearListener);
+        findViewById(R.id.button_undo).setOnClickListener(buttonUndoListener);
+        findViewById(R.id.button_sort).setOnClickListener(buttonSortListener);
 
         initialize();
     }
@@ -96,10 +97,13 @@ public class MainActivity extends AppCompatActivity {
                 numNum++;
                 sumNum+=value;
                 outputResults();
-                editText.startAnimation(outAnimation);
-                //editText.setVisibility(View.GONE);
-                //editText.setVisibility(View.VISIBLE);
-                editText.setText("");
+//                editText.startAnimation(outAnimation);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        editText.setText("");
+                    }
+                }, 200);
             }
             isOnesPlace = !isOnesPlace;
         }
@@ -115,24 +119,23 @@ public class MainActivity extends AppCompatActivity {
     View.OnClickListener buttonUndoListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if (list.size() != 0) {
-                if (list.size() == 1){
-                    initialize();
-                }
-                else {
-                    int value = list.get(list.size() - 1);
-                    list.remove(list.size() - 1);
-                    numNum--;
-                    sumNum -= value;
-                    textView.setText("input:");
-                    displayList(textView, list);
-                    if (doneSort) {
-                        sort.setText("sorted:");
-                        displayList(sort, descentSort(list));
-                    }
-                    outputResults();
-                }
+        if (list.size() == 0) return;
+        if (list.size() == 1){
+            initialize();
+        }
+        else {
+            int value = list.get(list.size() - 1);
+            list.remove(list.size() - 1);
+            numNum--;
+            sumNum -= value;
+            textView.setText("input:");
+            displayList(textView, list);
+            if (doneSort) {
+                sort.setText("sorted:");
+                displayList(sort, descentSort(list));
             }
+            outputResults();
+        }
         }
     };
 
